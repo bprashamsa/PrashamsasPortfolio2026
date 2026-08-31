@@ -1,7 +1,7 @@
 
-// Hi! My name is Prashamsa and I am working on my portfolio to showcase my current projects, past projects, and any contributions I have made. //
+Hi! My name is Prashamsa and I am working on my portfolio to showcase my current projects, past projects, and any contributions I have made.
 
-* This is not yet finished and I am still in the process of tailoring it to how I want it to look :) * 
+- This is not yet finished and I am still in the process of tailoring it to how I want it to look :) 
 
 How'd I get here?
 -----------------
