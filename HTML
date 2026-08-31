@@ -1,0 +1,608 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Prashamsa — Portfolio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Google+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --chrome-bg: #dee1e6;
+    --tab-inactive: #d3d6da;
+    --tab-active: #ffffff;
+    --page-bg: #ffffff;
+    --border: #d0d3d8;
+    --text-primary: #202124;
+    --text-secondary: #5f6368;
+    --text-muted: #80868b;
+    --accent-blue: #4285F4;
+    --radius-tab: 10px 10px 0 0;
+  }
+  *{ box-sizing: border-box; }
+  html,body{
+    margin:0; padding:0; height:100%;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+    color: var(--text-primary);
+    background: #f0f1f3;
+  }
+
+  /* ---------- Fake browser window ---------- */
+  .browser{
+    max-width: 1200px;
+    margin: 24px auto;
+    background: var(--page-bg);
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 1px 3px rgba(0,0,0,.15), 0 8px 24px rgba(0,0,0,.08);
+    border: 1px solid var(--border);
+  }
+
+  /* Title bar with traffic lights + tabs */
+  .titlebar{
+    background: var(--chrome-bg);
+    display: flex;
+    align-items: flex-end;
+    padding: 10px 12px 0 12px;
+    gap: 6px;
+  }
+  .traffic-lights{
+    display:flex; gap:8px; align-items:center;
+    padding-bottom: 12px; margin-right: 10px;
+  }
+  .dot{ width:12px; height:12px; border-radius:50%; }
+  .dot.red{ background:#ec6a5e; }
+  .dot.yellow{ background:#f4bf4f; }
+  .dot.green{ background:#61c554; }
+
+  .tabs{ display:flex; gap:4px; flex:1; }
+  .tab{
+    display:flex; align-items:center; gap:8px;
+    padding: 9px 16px;
+    font-size: 13.5px;
+    color: var(--text-secondary);
+    background: var(--tab-inactive);
+    border-radius: var(--radius-tab);
+    cursor: pointer;
+    user-select:none;
+    max-width: 220px;
+    white-space: nowrap;
+    transition: background .12s ease;
+  }
+  .tab svg{ width:15px; height:15px; flex-shrink:0; }
+  .tab.active{
+    background: var(--tab-active);
+    color: var(--text-primary);
+    font-weight: 500;
+  }
+  .tab:not(.active):hover{ background:#e7e9ec; }
+  .tab-add{
+    display:flex; align-items:center; justify-content:center;
+    width:32px; height:32px; margin-bottom:6px;
+    color: var(--text-secondary);
+    border-radius:50%;
+    cursor:default;
+    opacity:.7;
+  }
+
+  /* Address bar + bookmarks */
+  .toolbar{
+    background: var(--tab-active);
+    padding: 8px 14px;
+    display:flex; align-items:center; gap:14px;
+    border-bottom: 1px solid var(--border);
+  }
+  .nav-icons{ display:flex; gap:14px; color: var(--text-muted); }
+  .nav-icons svg{ width:18px; height:18px; }
+  .nav-icons svg:first-child{ color:#bcc0c4; }
+  .address-bar{
+    flex:1;
+    display:flex; align-items:center; gap:8px;
+    background:#f1f3f4;
+    border-radius: 18px;
+    padding: 7px 16px;
+    font-size: 13.5px;
+    color: var(--text-secondary);
+    font-family: "SFMono-Regular", Consolas, Menlo, monospace;
+  }
+  .address-bar svg{ width:14px; height:14px; color:var(--text-muted); flex-shrink:0; }
+  .toolbar-icons{ display:flex; align-items:center; gap:14px; }
+  .toolbar-icons svg{ width:17px; height:17px; color:var(--text-muted); }
+  .avatar{
+    width:26px; height:26px; border-radius:50%;
+    background: var(--accent-blue);
+    display:flex; align-items:center; justify-content:center;
+    color:#fff; flex-shrink:0;
+  }
+  .avatar svg{ width:15px; height:15px; color:#fff; }
+
+  .bookmarks{
+    background: var(--tab-active);
+    padding: 8px 18px;
+    display:flex; gap:26px;
+    border-bottom: 1px solid var(--border);
+  }
+  .bookmark{
+    display:flex; align-items:center; gap:7px;
+    font-size: 13px; color: var(--text-secondary);
+    cursor: pointer;
+  }
+  .bookmark svg{ width:15px; height:15px; }
+  .bookmark:hover{ color: var(--text-primary); }
+
+  /* ---------- Page content area ---------- */
+  .page{
+    display:none;
+    min-height: 560px;
+    position: relative;
+    overflow: hidden;
+  }
+  .page.active{ display:block; }
+
+  /* ---- Falling Google-colored confetti (About page) ---- */
+  .falling-garden{
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+    overflow: hidden;
+  }
+  .falling-piece{
+    position: absolute;
+    top: -60px;
+    animation-name: fall-sway;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+    will-change: transform;
+  }
+  .falling-piece svg{ display:block; }
+  @keyframes fall-sway{
+    0%   { transform: translate(0, -8vh) rotate(0deg); }
+    25%  { transform: translate(24px, 25vh) rotate(70deg); }
+    50%  { transform: translate(-18px, 50vh) rotate(150deg); }
+    75%  { transform: translate(20px, 78vh) rotate(230deg); }
+    100% { transform: translate(-10px, 108vh) rotate(320deg); }
+  }
+  @media (prefers-reduced-motion: reduce){
+    .falling-piece{ animation: none; display:none; }
+  }
+
+  /* ---- Home page ---- */
+  .home{
+    padding: 90px 20px 60px;
+    text-align:center;
+    font-family: 'Google Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+  }
+  .logo{
+    font-size: 64px;
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    margin: 0 0 40px;
+  }
+  .logo span{ display:inline-block; }
+
+  .search-wrap{
+    max-width: 600px;
+    margin: 0 auto 52px;
+  }
+  .search-bar{
+    display:flex; align-items:center; gap:14px;
+    border: 1px solid #dfe1e5;
+    border-radius: 24px;
+    padding: 13px 22px;
+    box-shadow: 0 1px 2px rgba(0,0,0,.04);
+    color: var(--text-muted);
+    font-size: 15.5px;
+  }
+  .search-bar svg{ width:18px; height:18px; color:#9aa0a6; flex-shrink:0; }
+
+  .shortcut{
+    display:inline-flex; flex-direction:column; align-items:center; gap:10px;
+    cursor:pointer;
+    margin: 0 auto 44px;
+    width: fit-content;
+  }
+  .shortcut-icon{
+    width:60px; height:60px; border-radius:50%;
+    background:#f1f3f4;
+    display:flex; align-items:center; justify-content:center;
+    color: var(--text-secondary);
+    transition: background .12s ease;
+  }
+  .shortcut:hover .shortcut-icon{ background:#e8eaed; }
+  .shortcut-icon svg{ width:26px; height:26px; }
+  .shortcut-label{ font-size: 13.5px; color: var(--text-secondary); }
+
+  .home-bio{
+    max-width: 620px;
+    margin: 0 auto;
+    font-size: 15.5px;
+    line-height: 1.7;
+    color: var(--text-secondary);
+  }
+
+  /* ---- About page ---- */
+  .about{
+    padding: 64px 90px 80px;
+    max-width: 880px;
+    margin: 0 auto;
+    font-family: 'Google Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+    position: relative;
+    z-index: 1;
+  }
+  .about-eyebrow{
+    font-size: 13px;
+    color: var(--text-muted);
+    font-family: "SFMono-Regular", Consolas, Menlo, monospace;
+    margin-bottom: 10px;
+  }
+  .about-header{
+    display:flex;
+    align-items:center;
+    gap: 32px;
+    margin-bottom: 36px;
+  }
+  .profile-photo-ring{
+    flex-shrink:0;
+    width: 176px;
+    height: 176px;
+    border-radius: 50%;
+    padding: 4px;
+    border: 6px solid #4285F4;
+    box-sizing: border-box;
+    position: relative;
+    cursor: pointer;
+    box-shadow: 0 4px 14px rgba(66,133,244,0.18);
+    transition: transform 0.45s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.45s ease;
+    animation: photo-breathe 3.2s ease-in-out infinite;
+  }
+  .profile-photo-ring::before{
+    content: '';
+    position: absolute;
+    inset: -16px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(66,133,244,0.4), rgba(66,133,244,0) 70%);
+    opacity: 0;
+    transform: scale(0.75);
+    transition: opacity 0.45s ease, transform 0.45s ease;
+    z-index: -1;
+  }
+  .profile-photo-ring:hover{
+    transform: scale(1.16) rotate(3deg);
+    box-shadow: 0 14px 34px rgba(66,133,244,0.4), 0 0 0 10px rgba(66,133,244,0.1);
+    animation-play-state: paused;
+  }
+  .profile-photo-ring:hover::before{
+    opacity: 1;
+    transform: scale(1.15);
+  }
+  @keyframes photo-breathe{
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.025); }
+  }
+  @media (prefers-reduced-motion: reduce){
+    .profile-photo-ring{ animation: none; }
+  }
+  .profile-photo-ring img{
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    object-fit: cover;
+    display: block;
+  }
+  .about-header-text{ flex:1; min-width:0; }
+  .about h1{
+    font-size: 38px;
+    line-height: 1.25;
+    margin: 0 0 26px;
+    font-weight: 600;
+    max-width: 640px;
+  }
+  .about p.lede{
+    font-size: 17px;
+    line-height: 1.75;
+    color: var(--text-primary);
+    max-width: 640px;
+    margin: 0 0 20px;
+  }
+  .about p.body-text{
+    font-size: 15.5px;
+    line-height: 1.75;
+    color: var(--text-secondary);
+    max-width: 640px;
+    margin: 0 0 20px;
+  }
+  .why-heading{
+    font-size: 20px;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin: 8px 0 14px;
+  }
+
+  .meta-grid{
+    display:grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 28px;
+    margin: 44px 0 40px;
+    padding: 28px 0;
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+  }
+  .meta-block h3{
+    font-size: 12px;
+    text-transform: none;
+    letter-spacing: 0;
+    color: var(--text-muted);
+    font-family: "SFMono-Regular", Consolas, Menlo, monospace;
+    margin: 0 0 10px;
+    font-weight: 500;
+  }
+  .meta-block p{
+    font-size: 15px;
+    color: var(--text-primary);
+    line-height: 1.6;
+    margin:0;
+    font-family: 'Google Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+  }
+  .fake-link{
+    color: #1a73e8;
+    text-decoration: underline;
+    cursor: pointer;
+  }
+  .fake-link:hover{
+    color: #174ea6;
+  }
+
+  .skills-row{
+    display:flex; flex-wrap:wrap; gap:9px;
+    margin-bottom: 44px;
+  }
+  .skill-pill{
+    font-size: 13px;
+    font-family: "SFMono-Regular", Consolas, Menlo, monospace;
+    padding: 6px 13px;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    color: var(--text-secondary);
+    background: #fafbfc;
+  }
+
+  .now-block{
+    display:flex; gap:16px;
+    padding: 20px 22px;
+    background: #fafbfc;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    max-width: 640px;
+  }
+  .now-dot{
+    width:8px; height:8px; border-radius:50%;
+    background:#61c554;
+    margin-top: 7px;
+    flex-shrink:0;
+    box-shadow: 0 0 0 3px rgba(97,197,84,.15);
+  }
+  .now-block p{
+    margin:0; font-size:14.5px; line-height:1.7; color: var(--text-secondary);
+    font-family: 'Google Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+  }
+  .now-block strong{ color: var(--text-primary); font-weight:600; }
+
+  @media (max-width: 640px){
+    .browser{ margin: 0; border-radius:0; }
+    .about{ padding: 44px 22px 60px; }
+    .meta-grid{ grid-template-columns: 1fr; }
+    .about h1{ font-size: 28px; }
+    .home{ padding: 60px 16px 40px; }
+    .logo{ font-size: 44px; }
+    .about-header{ flex-direction: column; align-items: flex-start; gap: 20px; }
+    .profile-photo-ring{ width: 130px; height: 130px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="browser">
+
+  <!-- Title bar -->
+  <div class="titlebar">
+    <div class="traffic-lights">
+      <span class="dot red"></span>
+      <span class="dot yellow"></span>
+      <span class="dot green"></span>
+    </div>
+    <div class="tabs">
+      <div class="tab active" data-tab="home" onclick="switchTab('home')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 11l9-8 9 8"/><path d="M5 10v10h14V10"/></svg>
+        New Tab
+      </div>
+      <div class="tab" data-tab="about" onclick="switchTab('about')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 21c1.5-4 5-6 8-6s6.5 2 8 6"/></svg>
+        about
+      </div>
+    </div>
+    <div class="tab-add">
+      <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
+    </div>
+  </div>
+
+  <!-- Address bar -->
+  <div class="toolbar">
+    <div class="nav-icons">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 18l-6-6 6-6"/></svg>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12a9 9 0 11-3-6.7"/><path d="M21 3v6h-6"/></svg>
+    </div>
+    <div class="address-bar">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="5" y="11" width="14" height="9" rx="1"/><path d="M8 11V7a4 4 0 018 0v4"/></svg>
+      <span id="url-text">portfolio://home</span>
+    </div>
+    <div class="toolbar-icons">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 2l2.4 6.9H21l-5.6 4.3 2.1 7-5.5-4.3-5.5 4.3 2.1-7L3 8.9h6.6z"/></svg>
+      <div class="avatar">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 21c1.5-4 5-6 8-6s6.5 2 8 6"/></svg>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bookmarks bar -->
+  <div class="bookmarks">
+    <div class="bookmark" onclick="window.open('https://www.linkedin.com/in/prashamsa-b-b893b1243/', '_blank')">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8" cy="10" r="1.5" fill="currentColor" stroke="none"/><path d="M8 13v4M13 17v-3a2 2 0 014 0v3M13 13v.01"/></svg>
+      LinkedIn
+    </div>
+    <div class="bookmark" onclick="window.open('https://github.com/bprashamsa', '_blank')">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 20l8-16M16 20l-8-16"/></svg>
+      GitHub
+    </div>
+  </div>
+
+  <!-- ===================== HOME PAGE ===================== -->
+  <div class="page active" id="page-home">
+    <div class="home">
+      <h1 class="logo">
+        <span style="color:#4285F4">P</span><span style="color:#EA4335">r</span><span style="color:#FBBC05">a</span><span style="color:#4285F4">s</span><span style="color:#34A853">h</span><span style="color:#EA4335">a</span><span style="color:#FBBC05">m</span><span style="color:#4285F4">s</span><span style="color:#34A853">a</span>
+      </h1>
+
+      <div class="search-wrap">
+        <div class="search-bar">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+          <span>Search projects or pick a shortcut below</span>
+        </div>
+      </div>
+
+      <div class="shortcut" onclick="switchTab('about')">
+        <div class="shortcut-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 21c1.5-4 5-6 8-6s6.5 2 8 6"/></svg>
+        </div>
+        <div class="shortcut-label">About Me</div>
+      </div>
+
+      <p class="home-bio">
+        Hi, I’m Prashamsa and I spend a lot of time in browsers, so making my portfolio feel like one seemed pretty fitting!
+      </p>
+    </div>
+  </div>
+
+  <!-- ===================== ABOUT PAGE ===================== -->
+  <div class="page" id="page-about">
+    <div class="falling-garden" id="falling-garden"></div>
+    <div class="about">
+      <div class="about-header">
+        <div class="profile-photo-ring">
+          <img src="profile.jpg" alt="Photo of Prashamsa">
+        </div>
+        <div class="about-header-text">
+          <div class="about-eyebrow">whoami</div>
+          <h1>Hi! I'm Prashamsa.</h1>
+        </div>
+      </div>
+
+      <p class="lede">
+        This is where I'm collecting the projects and contributions I've created & built over the years, documenting progress and growth.
+      </p>
+
+      <h2 class="why-heading">How did we get here?</h2>
+      <p class="body-text">
+        Curiosity was always the starting point. It began with experimenting on a TI-84 with basic programming and taking apart my Nintendo 3DS, which grew into a fascination with how technology can be built, understood, and improved. Software development taught me how to create; data science taught me how to find meaning in complexity; and cybersecurity taught me the importance of protecting it. Together, they’ve shaped my path toward becoming someone who can understand technology from the inside out, recognize what doesn’t belong, and help build a digital world that is thoughtful, secure, and resilient.
+      </p>
+
+      <div class="meta-grid">
+        <div class="meta-block">
+          <h3>education</h3>
+          <p><a class="fake-link">UW<br> Data Science &amp; Cybersecurity</a></p>
+        </div>
+        <div class="meta-block">
+          <h3>aiming toward</h3>
+          <p><a class="fake-link">Cybersecurity Analyst</a></p>
+        </div>
+        <div class="meta-block">
+          <h3>location</h3>
+          <p><a class="fake-link">Seattle, WA</a></p>
+        </div>
+      </div>
+
+      <div class="skills-row">
+        <span class="skill-pill">Python</span>
+        <span class="skill-pill">Java</span>
+        <span class="skill-pill">CSS</span>
+        <span class="skill-pill">RStudio</span>
+        <span class="skill-pill">HTML</span>
+        <span class="skill-pill">SQL</span>
+      </div>
+
+      <div class="now-block">
+        <div class="now-dot"></div>
+        <p><strong>Currently building —</strong> a physical Tamagotchi. In my free time I like engineering
+        small, self-contained projects like this: something meaningful, that I can hold in my hands and
+        watch come to life.</p>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+  function switchTab(name){
+    document.querySelectorAll('.tab').forEach(t => t.classList.toggle('active', t.dataset.tab === name));
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    document.getElementById('page-' + name).classList.add('active');
+    document.getElementById('url-text').textContent = 'portfolio://' + name;
+    document.title = (name === 'home' ? 'Prashamsa' : 'about') + ' — Portfolio';
+  }
+
+  // ---- Falling Google-colored confetti & stars ----
+  (function(){
+    const googleColorsRGBA = [
+      'rgba(66,133,244,0.55)',   // blue
+      'rgba(234,67,53,0.55)',    // red
+      'rgba(251,188,5,0.55)',    // yellow
+      'rgba(52,168,83,0.55)'     // green
+    ];
+
+    function ballSVG(size, color){
+      return `<svg width="${size}" height="${size}" viewBox="0 0 24 24">
+        <circle cx="12" cy="12" r="10" fill="${color}"/>
+      </svg>`;
+    }
+
+    function starSVG(size, color){
+      return `<svg width="${size}" height="${size}" viewBox="0 0 24 24">
+        <path d="M12 1.5l3.09 6.26 6.91 1-5 4.87 1.18 6.87L12 17.27 5.82 20.5 7 13.63l-5-4.87 6.91-1z" fill="${color}"/>
+      </svg>`;
+    }
+
+    const garden = document.getElementById('falling-garden');
+    const PIECES = 22;
+    for(let i = 0; i < PIECES; i++){
+      const el = document.createElement('div');
+      el.className = 'falling-piece';
+
+      // wide size range so pieces read as clearly small and clearly big
+      const isTiny = Math.random() > 0.55;
+      const size = isTiny
+        ? 8 + Math.random() * 10   // small: 8-18px
+        : 24 + Math.random() * 20; // big: 24-44px
+
+      const isBall = Math.random() > 0.45;
+      const color = googleColorsRGBA[Math.floor(Math.random() * googleColorsRGBA.length)];
+      el.innerHTML = isBall ? ballSVG(size, color) : starSVG(size, color);
+
+      const left = Math.random() * 100;
+      const duration = 10 + Math.random() * 10;
+      const delay = -Math.random() * 20;
+      const opacity = 0.5 + Math.random() * 0.35;
+
+      el.style.left = left + '%';
+      el.style.opacity = opacity;
+      el.style.animationDuration = duration + 's';
+      el.style.animationDelay = delay + 's';
+
+      garden.appendChild(el);
+    }
+  })();
+</script>
+
+</body>
+</html>
