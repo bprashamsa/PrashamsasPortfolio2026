@@ -26,6 +26,7 @@
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
     color: var(--text-primary);
     background: #f0f1f3;
+    cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 20 20'%3E%3Cpath d='M10 1.2L12.2 6.2L17.8 6.2L13.3 9.5L15.1 15L10 11.7L4.9 15L6.7 9.5L2.2 6.2H7.8L10 1.2Z' fill='%23FCD34D' fill-opacity='0.5'/%3E%3C/svg%3E") 10 10, auto;
   }
 
   /* ---------- Fake browser window ---------- */
@@ -176,8 +177,8 @@
   }
   .logo{
     font-size: 64px;
-    font-weight: 500;
-    letter-spacing: 0.06em;
+    font-weight: 600;
+    letter-spacing: -1px;
     margin: 0 0 40px;
   }
   .logo span{ display:inline-block; }
@@ -197,10 +198,14 @@
   }
   .search-bar svg{ width:18px; height:18px; color:#9aa0a6; flex-shrink:0; }
 
+  .shortcut-row{
+    display:flex; justify-content:center; align-items:flex-start; gap:36px;
+    flex-wrap:wrap;
+    margin-bottom: 44px;
+  }
   .shortcut{
     display:inline-flex; flex-direction:column; align-items:center; gap:10px;
     cursor:pointer;
-    margin: 0 auto 44px;
     width: fit-content;
   }
   .shortcut-icon{
@@ -209,9 +214,17 @@
     display:flex; align-items:center; justify-content:center;
     color: var(--text-secondary);
     transition: background .12s ease;
+    overflow:hidden;
+    border: 1px solid #e4e7eb;
   }
   .shortcut:hover .shortcut-icon{ background:#e8eaed; }
   .shortcut-icon svg{ width:26px; height:26px; }
+  .shortcut-profile img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    display:block;
+  }
   .shortcut-label{ font-size: 13.5px; color: var(--text-secondary); }
 
   .home-bio{
@@ -398,7 +411,159 @@
     .logo{ font-size: 44px; }
     .about-header{ flex-direction: column; align-items: flex-start; gap: 20px; }
     .profile-photo-ring{ width: 130px; height: 130px; }
+    .projects{ padding: 44px 22px 60px; }
+    .projects h1{ font-size: 26px; }
   }
+
+  /* ---- Projects page ---- */
+  .projects{
+    padding: 56px 24px 80px;
+    max-width: 1100px;
+    margin: 0 auto;
+    font-family: 'Google Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+    background:
+      linear-gradient(rgba(255,255,255,0.1), rgba(255,255,255,0.1)),
+      linear-gradient(90deg, rgba(0,0,0,0.03) 1px, transparent 1px),
+      linear-gradient(rgba(0,0,0,0.03) 1px, transparent 1px);
+    background-size: auto, 22px 22px, 22px 22px;
+    background-position: center, center, center;
+  }
+  .projects h1{
+    font-size: 30px;
+    font-weight: 600;
+    margin: 0 0 28px;
+    line-height: 1.3;
+    text-align: center;
+  }
+
+  /* ---- Instagram-style post card ---- */
+  .ig-post{
+    max-width: 760px;
+    margin: 0 auto;
+    background: #fff;
+    border: 1px solid #dbdbdb;
+    border-radius: 12px;
+    overflow: hidden;
+    transform: scale(1.03);
+    transform-origin: top center;
+    box-shadow: 0 1px 0 rgba(0,0,0,0.03);
+  }
+  .ig-header{
+    display:flex;
+    align-items:center;
+    gap: 11px;
+    padding: 12px 14px;
+  }
+  .ig-avatar{
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    padding: 2px;
+    background: linear-gradient(45deg, #4285F4, #EA4335, #FBBC05, #34A853);
+    flex-shrink:0;
+    cursor: pointer;
+    transition: transform 0.18s ease, box-shadow 0.18s ease;
+    box-shadow: 0 0 0 rgba(0,0,0,0);
+  }
+  .ig-avatar:hover,
+  .ig-avatar:focus-visible,
+  .ig-avatar:active {
+    animation: avatar-bounce 0.42s cubic-bezier(0.2, 0.8, 0.2, 1);
+    box-shadow: 0 6px 18px rgba(66,133,244,0.22);
+  }
+  .ig-avatar img{
+    width: 100%; height: 100%;
+    border-radius: 50%;
+    object-fit: cover;
+    display:block;
+    border: 2px solid #fff;
+  }
+  @keyframes avatar-bounce{
+    0%   { transform: translateY(0) scale(1); }
+    30%  { transform: translateY(-6px) scale(1.08); }
+    55%  { transform: translateY(2px) scale(0.97); }
+    75%  { transform: translateY(-2px) scale(1.02); }
+    100% { transform: translateY(0) scale(1); }
+  }
+  .ig-header-text{ flex:1; min-width:0; }
+  .ig-username{ font-size: 13.5px; font-weight: 600; color: var(--text-primary); }
+  .ig-subtitle{ font-size: 11.5px; color: var(--text-muted); }
+  .ig-dots{ color: var(--text-primary); font-size: 18px; letter-spacing: 1px; cursor:default; padding: 0 4px; }
+
+  .ig-image{ width:100%; background:#fafafa; border-top:1px solid #efefef; border-bottom:1px solid #efefef; }
+  .ig-image img{ width:100%; display:block; height:auto; object-fit: contain; }
+
+  .ig-actions{
+    display:flex; align-items:center; justify-content:space-between;
+    padding: 10px 12px 4px;
+  }
+  .ig-actions-left{ display:flex; align-items:center; gap: 15px; }
+  .ig-icon-btn{
+    background:none; border:none; padding:0; margin:0;
+    cursor: pointer;
+    display:flex; align-items:center;
+    color: var(--text-primary);
+    -webkit-tap-highlight-color: transparent;
+  }
+  .ig-icon-btn svg{ width:24px; height:24px; }
+  .ig-heart-btn svg{
+    transition: transform 0.15s ease;
+  }
+  .ig-heart-btn.liked svg{
+    fill: #ed4956;
+    stroke: #ed4956;
+    animation: heart-pop 0.4s ease;
+  }
+  @keyframes heart-pop{
+    0%{ transform: scale(1); }
+    35%{ transform: scale(1.35); }
+    60%{ transform: scale(0.92); }
+    100%{ transform: scale(1); }
+  }
+
+  .ig-likes{
+    padding: 6px 14px 0;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text-primary);
+  }
+
+  .ig-caption{
+    padding: 6px 14px 16px;
+    font-size: 13.5px;
+    line-height: 1.55;
+    color: var(--text-primary);
+  }
+  .ig-caption .ig-username-inline{ font-weight: 600; margin-right: 5px; }
+  .ig-caption .ig-extra{ display:block; margin-top: 10px; }
+  .ig-caption .ig-extra h3{
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: .02em;
+    color: var(--text-muted);
+    margin: 14px 0 6px;
+    font-weight: 600;
+  }
+  .ig-more-btn{
+    background:none; border:none; padding:0; margin-left: 4px;
+    color: var(--text-muted);
+    font-size: 13.5px;
+    cursor: pointer;
+  }
+  .ig-hashtags{
+    display:block;
+    margin-top: 12px;
+  }
+  .ig-hashtags span{
+    color: #1a73e8;
+    margin-right: 6px;
+  }
+  .ig-source{
+    padding: 0 14px 16px;
+    font-size: 12px;
+    color: var(--text-muted);
+  }
+  .ig-source a{ color: #1a73e8; text-decoration: underline; }
 </style>
 </head>
 <body>
@@ -419,7 +584,28 @@
       </div>
       <div class="tab" data-tab="about" onclick="switchTab('about')">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 21c1.5-4 5-6 8-6s6.5 2 8 6"/></svg>
-        about
+        About
+      </div>
+      <div class="tab" data-tab="projects" onclick="switchTab('projects')">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <defs>
+            <linearGradient id="igGradient" x1="0%" x2="100%" y1="0%" y2="100%">
+              <stop offset="0%" stop-color="#feda75"/>
+              <stop offset="20%" stop-color="#fa7e1e"/>
+              <stop offset="50%" stop-color="#d62976"/>
+              <stop offset="80%" stop-color="#962fbf"/>
+              <stop offset="100%" stop-color="#4f5bd5"/>
+            </linearGradient>
+          </defs>
+          <rect x="3.5" y="3.5" width="17" height="17" rx="4.5" fill="none" stroke="currentColor" stroke-width="1.8"/>
+          <circle cx="12" cy="12" r="4.3" fill="none" stroke="url(#igGradient)" stroke-width="1.8"/>
+          <circle cx="17.2" cy="7.2" r="1.2" fill="currentColor"/>
+        </svg>
+        Data 2026
+      </div>
+      <div class="tab" data-tab="progress" onclick="switchTab('progress')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>
+        In Progress
       </div>
     </div>
     <div class="tab-add">
@@ -448,11 +634,11 @@
 
   <!-- Bookmarks bar -->
   <div class="bookmarks">
-    <div class="bookmark" onclick="window.open('https://www.linkedin.com/in/prashamsa-b-b893b1243/', '_blank')">
+    <div class="bookmark" onclick="window.open('https://www.linkedin.com/', '_blank')">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8" cy="10" r="1.5" fill="currentColor" stroke="none"/><path d="M8 13v4M13 17v-3a2 2 0 014 0v3M13 13v.01"/></svg>
       LinkedIn
     </div>
-    <div class="bookmark" onclick="window.open('https://github.com/bprashamsa', '_blank')">
+    <div class="bookmark" onclick="window.open('https://github.com/', '_blank')">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 20l8-16M16 20l-8-16"/></svg>
       GitHub
     </div>
@@ -472,11 +658,40 @@
         </div>
       </div>
 
-      <div class="shortcut" onclick="switchTab('about')">
-        <div class="shortcut-icon">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 21c1.5-4 5-6 8-6s6.5 2 8 6"/></svg>
+      <div class="shortcut-row">
+        <div class="shortcut" onclick="switchTab('about')">
+          <div class="shortcut-icon shortcut-profile">
+            <img src="profile.jpg" alt="Prashamsa profile" />
+          </div>
+          <div class="shortcut-label">About Me</div>
         </div>
-        <div class="shortcut-label">About Me</div>
+
+        <div class="shortcut" onclick="switchTab('projects')">
+          <div class="shortcut-icon">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <defs>
+                <linearGradient id="shortcutIgGradient" x1="0%" x2="100%" y1="0%" y2="100%">
+                  <stop offset="0%" stop-color="#feda75"/>
+                  <stop offset="20%" stop-color="#fa7e1e"/>
+                  <stop offset="50%" stop-color="#d62976"/>
+                  <stop offset="80%" stop-color="#962fbf"/>
+                  <stop offset="100%" stop-color="#4f5bd5"/>
+                </linearGradient>
+              </defs>
+              <rect x="3.5" y="3.5" width="17" height="17" rx="4.5" fill="none" stroke="currentColor" stroke-width="1.8"/>
+              <circle cx="12" cy="12" r="4.3" fill="none" stroke="url(#shortcutIgGradient)" stroke-width="1.8"/>
+              <circle cx="17.2" cy="7.2" r="1.2" fill="currentColor"/>
+            </svg>
+          </div>
+          <div class="shortcut-label">Data 2026</div>
+        </div>
+
+        <div class="shortcut" onclick="switchTab('progress')">
+          <div class="shortcut-icon" style="background:#f1f3f4;">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>
+          </div>
+          <div class="shortcut-label">In Progress</div>
+        </div>
       </div>
 
       <p class="home-bio">
@@ -500,7 +715,7 @@
       </div>
 
       <p class="lede">
-        This is where I'm collecting the projects and contributions I've created & built over the years, documenting progress and growth.
+        Welcome! This is where I'm collecting the projects and contributions I've created & built over the years.
       </p>
 
       <h2 class="why-heading">How did we get here?</h2>
@@ -541,15 +756,113 @@
     </div>
   </div>
 
+  <!-- ===================== PROJECTS PAGE ===================== -->
+  <div class="page" id="page-projects">
+    <div class="projects">
+      <div class="about-eyebrow" style="text-align:center;">A data driven study into crime patterns & trends in WA state</div>
+      <h1>County Crime Trends</h1>
+
+      <div class="ig-post">
+        <div class="ig-header">
+          <div class="ig-avatar"><img src="profile.jpg" alt="Prashamsa"></div>
+          <div class="ig-header-text">
+            <div class="ig-username">prashamsa.RStudio</div>
+            <div class="ig-subtitle">Data Science · Built with RStudio</div>
+          </div>
+          <div class="ig-dots">&#8942;</div>
+        </div>
+
+        <div class="ig-image">
+          <img src="Projectcrime.jpg" alt="Infographic: crime trends across Washington State counties, 2016-2024">
+        </div>
+
+        <div class="ig-actions">
+          <div class="ig-actions-left">
+            <button class="ig-icon-btn ig-heart-btn" id="heart-btn" onclick="toggleLike(this)" aria-label="Like">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.8 4.6a5.5 5.5 0 00-7.8 0L12 5.6l-1-1a5.5 5.5 0 00-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 000-7.8z"/></svg>
+            </button>
+            <button class="ig-icon-btn" aria-label="Comment">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.5 8.5 0 01-8.5 8.5c-1.35 0-2.63-.31-3.76-.86L3 21l1.86-5.74A8.46 8.46 0 013.5 11.5 8.5 8.5 0 0112 3a8.5 8.5 0 019 8.5z"/></svg>
+            </button>
+            <button class="ig-icon-btn" aria-label="Share">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2L11 13"/><path d="M22 2l-7 20-4-9-9-4 20-7z"/></svg>
+            </button>
+          </div>
+          <button class="ig-icon-btn" aria-label="Save">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21l-7-5-7 5V5a2 2 0 012-2h10a2 2 0 012 2z"/></svg>
+          </button>
+        </div>
+
+        <div class="ig-likes" id="ig-likes">Liked by classmates and others</div>
+
+        <div class="ig-caption">
+          <span class="ig-username-inline">prashamsa.codes</span><span id="caption-short">A data-driven look at crime trends across every WA county from 2016–2024, how rates shifted around COVID-19, which counties carry the most and least crime relative to their population, and how that gap has moved over time.</span><button class="ig-more-btn" id="more-btn" onclick="expandCaption()">more</button>
+
+          <span class="ig-extra" id="caption-extra" hidden>
+            <h3>why this study</h3>
+            I wanted to see what a real civic dataset could actually tell a story about, not just run
+            numbers, but turn them into something a person could look at and understand. Crime data felt
+            like a natural fit because it's public, it's messy in the ways real data usually is, and it directly
+            shapes decisions that affect people's everyday safety. Understanding county-level crime patterns
+            helps identify where crime is concentrated and how it shifts over time, which can support better
+            policy decisions and prevention strategies, things that matters to WA residents, policymakers,
+            law enforcement agencies, and local governments.
+
+            <h3>key findings</h3>
+            Spokane County has the highest crime rate relative to its population, while Ferry County has
+            the lowest. Assault and property crimes make up the largest share of offenses statewide, and a
+            reporting standard change from SRS to NIBRS in 2021 may affect how recent trends read. Dataset:
+            1,505 county-year observations across 299 variables, including total crime counts, violent and
+            property crime counts, population totals, and crime rate per 1,000 residents.
+
+            <span class="ig-hashtags">
+              <span>#DataScience</span><span>#RStudio</span><span>#WashingtonState</span><span>#CrimeTrends</span><span>#PublicSafety</span>
+            </span>
+          </span>
+        </div>
+
+        <div class="ig-source">
+          Data from the Washington State Statistical Analysis Center —
+          <a href="https://sac.ofm.wa.gov/data" target="_blank" rel="noopener">sac.ofm.wa.gov/data</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===================== IN PROGRESS PAGE ===================== -->
+  <div class="page" id="page-progress">
+    <div class="projects">
+      <div class="about-eyebrow" style="text-align:center;">In Progress</div>
+      <h1>In Progress</h1>
+      <p class="home-bio" style="text-align:center; margin-top: 20px;">New ideas and works still being built...</p>
+    </div>
+  </div>
+
 </div>
 
 <script>
+  function toggleLike(btn){
+    btn.classList.toggle('liked');
+    const likesEl = document.getElementById('ig-likes');
+    if(btn.classList.contains('liked')){
+      likesEl.textContent = 'Liked by you, classmates, and others';
+    } else {
+      likesEl.textContent = 'Liked by classmates and others';
+    }
+  }
+
+  function expandCaption(){
+    document.getElementById('caption-extra').hidden = false;
+    document.getElementById('more-btn').style.display = 'none';
+  }
+
   function switchTab(name){
     document.querySelectorAll('.tab').forEach(t => t.classList.toggle('active', t.dataset.tab === name));
     document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
     document.getElementById('page-' + name).classList.add('active');
     document.getElementById('url-text').textContent = 'portfolio://' + name;
-    document.title = (name === 'home' ? 'Prashamsa' : 'about') + ' — Portfolio';
+    const titles = { home: 'Prashamsa', about: 'about', projects: 'Data 2026', progress: 'In Progress' };
+    document.title = (titles[name] || name) + ' — Portfolio';
   }
 
   // ---- Falling Google-colored confetti & stars ----
