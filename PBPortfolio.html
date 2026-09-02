@@ -250,6 +250,25 @@
   .address-bar svg{ width:14px; height:14px; color:var(--text-muted); flex-shrink:0; }
   .toolbar-icons{ display:flex; align-items:center; gap:14px; }
   .toolbar-icons svg{ width:17px; height:17px; color:var(--text-muted); }
+  .profile-hint{
+    display:flex;
+    align-items:center;
+    gap:6px;
+    color:var(--text-secondary);
+    font-size:11px;
+    white-space:nowrap;
+    animation: hint-float 2.8s ease-in-out infinite;
+  }
+  .profile-hint svg{
+    width:25px;
+    height:18px;
+    color:#4285F4;
+    transform: rotate(-10deg);
+  }
+  @keyframes hint-float{
+    0%, 100% { transform: translateX(0); }
+    50% { transform: translateX(3px); }
+  }
   .avatar{
     width:26px; height:26px; border-radius:50%;
     background: var(--accent-blue);
@@ -934,6 +953,12 @@
         </svg>
       </button>
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 2l2.4 6.9H21l-5.6 4.3 2.1 7-5.5-4.3-5.5 4.3 2.1-7L3 8.9h6.6z"/></svg>
+      <div class="profile-hint" aria-hidden="true">
+        <span>Click here to learn about me!</span>
+        <svg viewBox="0 0 30 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M2 10h21"/><path d="m17 4 7 6-7 6"/>
+        </svg>
+      </div>
       <div class="avatar" onclick="switchTab('about')" onkeydown="if(event.key === 'Enter' || event.key === ' ') { event.preventDefault(); switchTab('about'); }" role="button" tabindex="0" aria-label="Open About Me" title="Open About Me">
         <img src="profile.jpg" alt="Open About Me">
       </div>
