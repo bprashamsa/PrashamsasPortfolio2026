@@ -200,15 +200,23 @@
     transition: transform 0.2s ease;
     line-height: 1.2;
   }
-  .tab.active .tab-label{
-    animation: tab-sway 2.8s ease-in-out infinite;
-    text-shadow: 0 0 8px rgba(0, 0, 0, 0.06);
+  .tab-art{
+    width: 76px;
+    height: 20px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
   }
-  @keyframes tab-sway {
-    0%, 100% { transform: translateX(0) rotate(0deg); }
-    25% { transform: translateX(-1.4px) rotate(-1deg); }
-    50% { transform: translateX(1.4px) rotate(1deg); }
-    75% { transform: translateX(-1px) rotate(-0.7deg); }
+  .tab-art img{
+    display: block;
+    max-width: 100%;
+    max-height: 100%;
+    width: auto;
+    height: auto;
+    object-fit: contain;
+  }
+  .tab.active .tab-label{
+    text-shadow: 0 0 8px rgba(0, 0, 0, 0.06);
   }
   .tab-add{
     display:flex; align-items:center; justify-content:center;
@@ -906,7 +914,7 @@
     <div class="tabs">
       <div class="tab active" data-tab="home" onclick="switchTab('home')" draggable="true">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 11l9-8 9 8"/><path d="M5 10v10h14V10"/></svg>
-        <span class="tab-label">New Tab</span>
+        <span class="tab-label tab-art"><img id="tab-name-art" src="Prashamsav1.png" alt="Prashamsa"></span>
       </div>
       <div class="tab" data-tab="projects" onclick="switchTab('projects')" draggable="true">
         <svg viewBox="0 0 24 24" aria-hidden="true">
@@ -1197,6 +1205,16 @@
 
 <script>
   document.addEventListener('DOMContentLoaded', () => {
+    const tabNameArt = document.getElementById('tab-name-art');
+    const tabNameVersions = ['Prashamsav1.png', 'Prashamsav2.png', 'Prashamsav3.png'];
+    let tabNameIndex = 0;
+
+    window.setInterval(() => {
+      if (!tabNameArt) return;
+      tabNameIndex = (tabNameIndex + 1) % tabNameVersions.length;
+      tabNameArt.src = tabNameVersions[tabNameIndex];
+    }, 2000);
+
     window.setTimeout(() => {
       document.body.classList.remove('loading');
       document.body.classList.add('ready');
