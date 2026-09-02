@@ -354,7 +354,7 @@
     font-weight: 500;
     letter-spacing: -1.8px;
     margin: 0 0 40px;
-    animation: logo-float 4s ease-in-out infinite;
+    animation: none;
     text-shadow: 0 10px 24px rgba(66, 133, 244, 0.08);
     line-height: 1;
   }
@@ -368,6 +368,27 @@
   }
   .logo span:nth-child(odd){ animation-delay: 0.12s; }
   .logo span:nth-child(even){ animation-delay: 0.24s; }
+  .logo-art{
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: min(560px, 88vw);
+    height: 150px;
+    animation: none;
+    transform: none;
+  }
+  .logo span.logo-art{
+    animation: none;
+    transform: none;
+  }
+  .logo-art img{
+    display: block;
+    max-width: 100%;
+    max-height: 100%;
+    width: auto;
+    height: auto;
+    object-fit: contain;
+  }
   @keyframes logo-float{
     0%, 100% { transform: translateY(0px); }
     50% { transform: translateY(-8px); }
@@ -611,6 +632,7 @@
     .personal-label{ letter-spacing: 0.04em; }
     .home{ padding: 60px 16px 40px; }
     .logo{ font-size: 44px; }
+    .logo-art{ width: 92vw; height: 110px; }
     .projects{ padding: 44px 22px 60px; }
     .projects h1{ font-size: 26px; }
   }
@@ -992,7 +1014,7 @@
   <div class="page active" id="page-home">
     <div class="home">
       <h1 class="logo">
-        <span style="color:#4285F4">P</span><span style="color:#EA4335">r</span><span style="color:#FBBC05">a</span><span style="color:#4285F4">s</span><span style="color:#34A853">h</span><span style="color:#EA4335">a</span><span style="color:#FBBC05">m</span><span style="color:#4285F4">s</span><span style="color:#34A853">a</span>
+        <span class="logo-art"><img id="home-name-art" src="Prashamsav1.png" alt="Prashamsa"></span>
       </h1>
 
       <div class="search-wrap">
@@ -1209,13 +1231,15 @@
 <script>
   document.addEventListener('DOMContentLoaded', () => {
     const tabNameArt = document.getElementById('tab-name-art');
+    const homeNameArt = document.getElementById('home-name-art');
     const tabNameVersions = ['Prashamsav1.png', 'Prashamsav2.png', 'Prashamsav3.png'];
     let tabNameIndex = 0;
 
     window.setInterval(() => {
-      if (!tabNameArt) return;
       tabNameIndex = (tabNameIndex + 1) % tabNameVersions.length;
-      tabNameArt.src = tabNameVersions[tabNameIndex];
+      const nextVersion = tabNameVersions[tabNameIndex];
+      if (tabNameArt) tabNameArt.src = nextVersion;
+      if (homeNameArt) homeNameArt.src = nextVersion;
     }, 2000);
 
     window.setTimeout(() => {
