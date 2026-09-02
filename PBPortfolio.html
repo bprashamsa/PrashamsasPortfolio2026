@@ -102,6 +102,27 @@
     font-weight: 500;
   }
   .tab:not(.active):hover{ background:#e7e9ec; }
+  .tab-label{
+    display: inline-block;
+    position: relative;
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.01em;
+    color: currentColor;
+    transform-origin: center;
+    transition: transform 0.2s ease;
+    line-height: 1.2;
+  }
+  .tab.active .tab-label{
+    animation: tab-sway 2.8s ease-in-out infinite;
+    text-shadow: 0 0 8px rgba(0, 0, 0, 0.06);
+  }
+  @keyframes tab-sway {
+    0%, 100% { transform: translateX(0) rotate(0deg); }
+    25% { transform: translateX(-1.4px) rotate(-1deg); }
+    50% { transform: translateX(1.4px) rotate(1deg); }
+    75% { transform: translateX(-1px) rotate(-0.7deg); }
+  }
   .tab-add{
     display:flex; align-items:center; justify-content:center;
     width:32px; height:32px; margin-bottom:6px;
@@ -209,11 +230,33 @@
   }
   .logo{
     font-size: 64px;
-    font-weight: 600;
-    letter-spacing: -1px;
+    font-weight: 500;
+    letter-spacing: -1.8px;
     margin: 0 0 40px;
+    animation: logo-float 4s ease-in-out infinite;
+    text-shadow: 0 10px 24px rgba(66, 133, 244, 0.08);
+    line-height: 1;
   }
-  .logo span{ display:inline-block; }
+  .logo span{
+    display:inline-block;
+    animation: letter-bob 4.2s ease-in-out infinite;
+    transform-origin: center bottom;
+    will-change: transform;
+    font-weight: 500;
+    letter-spacing: -1.8px;
+  }
+  .logo span:nth-child(odd){ animation-delay: 0.12s; }
+  .logo span:nth-child(even){ animation-delay: 0.24s; }
+  @keyframes logo-float{
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-8px); }
+  }
+  @keyframes letter-bob{
+    0%, 100% { transform: translateY(0) scale(1); }
+    25% { transform: translateY(-6px) scale(1.02); }
+    50% { transform: translateY(-12px) scale(1.04); }
+    75% { transform: translateY(-5px) scale(1.01); }
+  }
 
   .search-wrap{
     max-width: 600px;
@@ -493,11 +536,58 @@
 
   /* ---- Projects page ---- */
   .projects{
-    padding: 56px 24px 80px;
-    max-width: 1100px;
+    padding: 28px 18px 80px;
+    width: 100%;
+    max-width: 1280px;
     margin: 0 auto;
     font-family: 'Google Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
     background: transparent;
+  }
+
+  .projects-loader{
+    position: absolute;
+    inset: 0;
+    z-index: 6;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255, 255, 255, 0.72);
+    backdrop-filter: blur(8px);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 1.4s ease-in-out;
+  }
+  .projects-loader.show{
+    opacity: 1;
+    pointer-events: auto;
+  }
+  .projects-loader .spinner{
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    background: conic-gradient(from 0deg, #feda75, #fa7e1e, #d62976, #962fbf, #4f5bd5, #feda75);
+    position: relative;
+    animation: instagram-spin 0.9s linear infinite;
+    box-shadow: 0 12px 25px rgba(0,0,0,0.12);
+  }
+  .projects-loader .spinner::before{
+    content: "";
+    position: absolute;
+    inset: 9px;
+    background: white;
+    border-radius: 50%;
+  }
+  .projects-loader .spinner::after{
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    background: transparent;
+    box-shadow: inset 0 0 0 4px rgba(255,255,255,0.9);
+  }
+  @keyframes instagram-spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
   }
   .projects h1{
     font-size: 30px;
@@ -509,10 +599,13 @@
 
   .ig-layout{
     display:grid;
-    grid-template-columns: 176px minmax(0, 760px);
+    grid-template-columns: 120px minmax(0, 860px);
     align-items:start;
     justify-content:center;
-    gap: 28px;
+    gap: 22px;
+    width: 100%;
+    max-width: 1000px;
+    margin: 0 auto;
   }
   .ig-sidebar{
     display:flex;
@@ -521,6 +614,7 @@
     padding: 4px 0;
     position: sticky;
     top: 18px;
+    width: 100%;
   }
   .ig-nav-item{
     display:flex;
@@ -567,13 +661,14 @@
     --ig-inverse: #f2f2f2;
     --ig-button: #f3f3f3;
     --ig-link: #1a73e8;
-    max-width: 760px;
+    max-width: 860px;
+    width: 100%;
     margin: 0 auto;
     background: var(--ig-card);
     border: 1px solid var(--ig-border);
     border-radius: 12px;
     overflow: hidden;
-    transform: scale(1.03);
+    transform: scale(0.98);
     transform-origin: top center;
     box-shadow: 0 1px 0 rgba(0,0,0,0.03);
     color: var(--ig-text);
@@ -782,11 +877,11 @@
     <div class="tabs">
       <div class="tab active" data-tab="home" onclick="switchTab('home')">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 11l9-8 9 8"/><path d="M5 10v10h14V10"/></svg>
-        New Tab
+        <span class="tab-label">New Tab</span>
       </div>
       <div class="tab" data-tab="about" onclick="switchTab('about')">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 21c1.5-4 5-6 8-6s6.5 2 8 6"/></svg>
-        About
+        <span class="tab-label">About</span>
       </div>
       <div class="tab" data-tab="projects" onclick="switchTab('projects')">
         <svg viewBox="0 0 24 24" aria-hidden="true">
@@ -803,11 +898,11 @@
           <circle cx="12" cy="12" r="4.3" fill="none" stroke="url(#igGradient)" stroke-width="1.8"/>
           <circle cx="17.2" cy="7.2" r="1.2" fill="currentColor"/>
         </svg>
-        Data 2026
+        <span class="tab-label">Data 2026</span>
       </div>
       <div class="tab" data-tab="progress" onclick="switchTab('progress')">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>
-        In Progress
+        <span class="tab-label">In Progress</span>
       </div>
     </div>
     <div class="tab-add">
@@ -965,6 +1060,9 @@
 
   <!-- ===================== PROJECTS PAGE ===================== -->
   <div class="page" id="page-projects">
+    <div class="projects-loader" id="projects-loader" aria-live="polite" aria-label="Loading projects">
+      <div class="spinner" aria-hidden="true"></div>
+    </div>
     <div class="projects">
       <div class="about-eyebrow" style="text-align:center;">A data driven study into crime patterns & trends in WA state</div>
       <h1>County Crime Trends</h1>
@@ -1130,9 +1228,35 @@
   }
 
   function switchTab(name){
+    const target = document.getElementById('page-' + name);
+    if (!target) return;
+
+    const isProjectsTab = name === 'projects';
+    const loader = document.getElementById('projects-loader');
+
+    if (isProjectsTab && loader) {
+      loader.classList.remove('show');
+      void loader.offsetWidth;
+      loader.classList.add('show');
+
+      window.setTimeout(() => {
+        document.querySelectorAll('.tab').forEach(t => t.classList.toggle('active', t.dataset.tab === name));
+        document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+        target.classList.add('active');
+        document.getElementById('url-text').textContent = 'portfolio://' + name;
+        const titles = { home: 'Prashamsa', about: 'about', projects: 'Data 2026', progress: 'In Progress' };
+        document.title = (titles[name] || name) + ' — Portfolio';
+
+        window.setTimeout(() => {
+          loader.classList.remove('show');
+        }, 980);
+      }, 720);
+      return;
+    }
+
     document.querySelectorAll('.tab').forEach(t => t.classList.toggle('active', t.dataset.tab === name));
     document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-    document.getElementById('page-' + name).classList.add('active');
+    target.classList.add('active');
     document.getElementById('url-text').textContent = 'portfolio://' + name;
     const titles = { home: 'Prashamsa', about: 'about', projects: 'Data 2026', progress: 'In Progress' };
     document.title = (titles[name] || name) + ' — Portfolio';
