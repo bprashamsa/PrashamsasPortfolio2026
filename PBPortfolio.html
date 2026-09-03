@@ -125,7 +125,7 @@
     position: absolute;
     inset: 12px;
     border-radius: 50%;
-    background: url('profile.jpg') center/cover no-repeat;
+    background: url('assets/profile.jpg') center/cover no-repeat;
     border: 3px solid rgba(255,255,255,0.9);
     box-shadow: 0 0 0 2px rgba(66, 133, 244, 0.18);
     animation: profile-spin 1.4s linear infinite;
@@ -946,7 +946,7 @@
     <div class="tabs">
       <div class="tab active" data-tab="home" onclick="switchTab('home')" draggable="true">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 11l9-8 9 8"/><path d="M5 10v10h14V10"/></svg>
-        <span class="tab-label tab-art"><img id="tab-name-art" src="Prashamsav1.png" alt="Prashamsa"></span>
+        <span class="tab-label tab-art"><img id="tab-name-art" src="assets/Prashamsav1.png" alt="Prashamsa"></span>
       </div>
       <div class="tab" data-tab="projects" onclick="switchTab('projects')" draggable="true">
         <svg viewBox="0 0 24 24" aria-hidden="true">
@@ -1000,7 +1000,7 @@
         </svg>
       </div>
       <div class="avatar" onclick="switchTab('about')" onkeydown="if(event.key === 'Enter' || event.key === ' ') { event.preventDefault(); switchTab('about'); }" role="button" tabindex="0" aria-label="Open About Me" title="Open About Me">
-        <img src="profile.jpg" alt="Open About Me">
+        <img src="assets/profile.jpg" alt="Open About Me">
       </div>
     </div>
   </div>
@@ -1021,7 +1021,7 @@
   <div class="page active" id="page-home">
     <div class="home">
       <h1 class="logo">
-        <span class="logo-art"><img id="home-name-art" src="Prashamsav1.png" alt="Prashamsa"></span>
+        <span class="logo-art"><img id="home-name-art" src="assets/Prashamsav1.png" alt="Prashamsa"></span>
       </h1>
 
       <div class="search-wrap">
@@ -1083,7 +1083,7 @@
       <div class="google-profile-card">
         <div class="google-person-header">
           <div class="profile-photo-ring">
-            <img src="profile.jpg" alt="Profile photo of Prashamsa">
+            <img src="assets/profile.jpg" alt="Profile photo of Prashamsa">
           </div>
           <div class="google-person-meta">
             <p class="profile-kicker">Personal info</p>
@@ -1155,7 +1155,7 @@
 
         <div class="ig-post">
         <div class="ig-header">
-          <div class="ig-avatar"><img src="profile.jpg" alt="Prashamsa"></div>
+          <div class="ig-avatar"><img src="assets/profile.jpg" alt="Prashamsa"></div>
           <div class="ig-header-text">
             <div class="ig-username">prashamsa.RStudio</div>
             <div class="ig-subtitle">Data Science · Built with RStudio</div>
@@ -1167,7 +1167,7 @@
           <div class="double-tap-heart" id="double-tap-heart" aria-hidden="true">
             <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21.35L10.55 20C5.4 15.36 2 12.28 2 8.5A4.5 4.5 0 016.5 4c1.74 0 3.41.81 4.5 2.09A6.08 6.08 0 0115.5 4 4.5 4.5 0 0120 8.5c0 3.78-3.4 6.86-8.55 11.5L12 21.35z"/></svg>
           </div>
-          <img src="Projectcrime.png" alt="Infographic: crime trends across Washington State counties, 2016-2024">
+          <img src="assets/Projectcrime.png" alt="Infographic: crime trends across Washington State counties, 2016-2024">
         </div>
 
         <div class="ig-actions">
@@ -1239,7 +1239,7 @@
   document.addEventListener('DOMContentLoaded', () => {
     const tabNameArt = document.getElementById('tab-name-art');
     const homeNameArt = document.getElementById('home-name-art');
-    const tabNameVersions = ['Prashamsav1.png', 'Prashamsav2.png', 'Prashamsav3.png'];
+    const tabNameVersions = ['assets/Prashamsav1.png', 'assets/Prashamsav2.png', 'assets/Prashamsav3.png'];
     let tabNameIndex = 0;
 
     window.setInterval(() => {
