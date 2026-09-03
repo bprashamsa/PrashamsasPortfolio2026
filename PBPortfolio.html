@@ -201,8 +201,8 @@
     line-height: 1.2;
   }
   .tab-art{
-    width: 76px;
-    height: 20px;
+    width: 96px;
+    height: 24px;
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -378,8 +378,9 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    width: min(640px, 92vw);
-    height: 180px;
+    margin: 0 auto;
+    width: min(760px, 96vw);
+    height: 220px;
     animation: none;
     transform: none;
   }
@@ -406,25 +407,6 @@
     75% { transform: translateY(-5px) scale(1.01); }
   }
 
-  .search-wrap{
-    max-width: 600px;
-    margin: 0 auto 52px;
-  }
-  .search-bar{
-    display:flex; align-items:center; gap:14px;
-    border: 1px solid rgba(255,255,255,0.55);
-    border-radius: 24px;
-    padding: 13px 22px;
-    box-shadow: 0 1px 2px rgba(0,0,0,.04);
-    color: var(--text-muted);
-    font-size: 15.5px;
-    background: rgba(255,255,255,0.9);
-    color: #3c4043;
-  }
-  .browser.dark-mode .search-bar{
-    border-color: rgba(255,255,255,0.08);
-    background: rgba(255,255,255,0.02);
-  }
   .browser.dark-mode .about h1,
   .browser.dark-mode .projects h1,
   .browser.dark-mode .about p.lede,
@@ -453,7 +435,9 @@
   .browser.dark-mode .ig-post .ig-header {
     color: var(--text-primary);
   }
-  .search-bar svg{ width:18px; height:18px; color:#9aa0a6; flex-shrink:0; }
+  .home .logo{
+    margin: 0 0 40px;
+  }
 
   .shortcut-row{
     display:flex; justify-content:center; align-items:flex-start; gap:36px;
@@ -946,7 +930,7 @@
     <div class="tabs">
       <div class="tab active" data-tab="home" onclick="switchTab('home')" draggable="true">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 11l9-8 9 8"/><path d="M5 10v10h14V10"/></svg>
-        <span class="tab-label tab-art"><img id="tab-name-art" src="assets/Prashamsav1.png" alt="Prashamsa"></span>
+        <span class="tab-label tab-art"><img id="tab-name-art" src="assets/PrashamsaV1PatchesNoBG.png" alt="Prashamsa"></span>
       </div>
       <div class="tab" data-tab="projects" onclick="switchTab('projects')" draggable="true">
         <svg viewBox="0 0 24 24" aria-hidden="true">
@@ -1021,15 +1005,8 @@
   <div class="page active" id="page-home">
     <div class="home">
       <h1 class="logo">
-        <span class="logo-art"><img id="home-name-art" src="assets/Prashamsav1.png" alt="Prashamsa"></span>
+        <span class="logo-art"><img id="home-name-art" src="assets/PrashamsaV1PatchesNoBG.png" alt="Prashamsa"></span>
       </h1>
-
-      <div class="search-wrap">
-        <div class="search-bar">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
-          <span>Search projects or pick a shortcut below</span>
-        </div>
-      </div>
 
       <div class="shortcut-row">
         <div class="shortcut" onclick="switchTab('about')">
@@ -1239,12 +1216,17 @@
   document.addEventListener('DOMContentLoaded', () => {
     const tabNameArt = document.getElementById('tab-name-art');
     const homeNameArt = document.getElementById('home-name-art');
-    const tabNameVersions = ['assets/Prashamsav1.png', 'assets/Prashamsav2.png', 'assets/Prashamsav3.png'];
-    let tabNameIndex = 0;
+    const nameVersions = [
+      'assets/PrashamsaV1PatchesNoBG.png',
+      'assets/PrashamsaV2PatchesNoBGpng.png',
+      'assets/PrashamsaV3PatchesNoBG.png',
+      'assets/PrashamsaV4PatchesNoBG.png'
+    ];
+    let nameIndex = 0;
 
     window.setInterval(() => {
-      tabNameIndex = (tabNameIndex + 1) % tabNameVersions.length;
-      const nextVersion = tabNameVersions[tabNameIndex];
+      nameIndex = (nameIndex + 1) % nameVersions.length;
+      const nextVersion = nameVersions[nameIndex];
       if (tabNameArt) tabNameArt.src = nextVersion;
       if (homeNameArt) homeNameArt.src = nextVersion;
     }, 2000);
