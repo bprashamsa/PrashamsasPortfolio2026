@@ -193,6 +193,64 @@
   .address-bar svg{ width:14px; height:14px; color:var(--text-muted); flex-shrink:0; }
   .toolbar-icons{ display:flex; align-items:center; gap:14px; }
   .toolbar-icons svg{ width:17px; height:17px; color:var(--text-muted); }
+  .header-links{
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-left: auto;
+    font-size: 12px;
+    font-family: 'EB Garamond', serif;
+    font-weight: 600;
+  }
+  .header-link{
+    color: #1a73e8;
+    text-decoration: underline;
+    text-underline-offset: 2px;
+    cursor: pointer;
+  }
+  .social-links{
+    position: fixed;
+    left: 22px;
+    bottom: 18px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 6px;
+    z-index: 20;
+  }
+  .social-link-row{
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .social-mark{
+    width: 30px;
+    height: 30px;
+    display: inline-block;
+    flex-shrink: 0;
+    animation: social-spin 6s linear infinite;
+  }
+  .social-mark img{
+    width: 100%;
+    height: 100%;
+    display: block;
+    object-fit: contain;
+  }
+  @keyframes social-spin{
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+  }
+  .social-link{
+    font-family: 'pbhandwritingfont', 'Segoe Print', 'Bradley Hand', cursive;
+    font-size: 28px;
+    line-height: 1.1;
+    color: #ffffff;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    text-decoration-thickness: 1px;
+    cursor: pointer;
+    text-shadow: 0 1px 3px rgba(0,0,0,0.6);
+  }
   .avatar{
     width:26px; height:26px; border-radius:50%;
     background: var(--accent-blue);
@@ -605,11 +663,6 @@
   @media (max-width: 640px){
   }
 
-  .titlebar,
-  .toolbar,
-  .bookmarks{
-    display: none;
-  }
   .browser{
     width: 100%;
     min-height: 100vh;
@@ -622,75 +675,20 @@
 </head>
 <body>
 
+<div class="social-links">
+  <div class="social-link-row">
+    <span class="social-mark" aria-hidden="true"><img src="assets/GoldStar.png" alt=""></span>
+    <a class="social-link" href="https://www.linkedin.com/in/prashamsa-b-b893b1243/" target="_blank" rel="noopener">click here for my linked in</a>
+  </div>
+  <div class="social-link-row">
+    <span class="social-mark" aria-hidden="true"><img src="assets/GoldStar.png" alt=""></span>
+    <a class="social-link" href="https://github.com/bprashamsa" target="_blank" rel="noopener">click here for my github</a>
+  </div>
+</div>
+
 <div class="browser">
 
   <!-- Title bar -->
-  <div class="titlebar">
-    <div class="traffic-lights">
-      <span class="dot red"></span>
-      <span class="dot yellow"></span>
-      <span class="dot green"></span>
-    </div>
-    <div class="tabs">
-      <div class="tab active" data-tab="home" onclick="switchTab('home')" draggable="true">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 11l9-8 9 8"/><path d="M5 10v10h14V10"/></svg>
-        <span class="tab-label tab-art"><img id="tab-name-art" src="assets/PrashamsaV1PatchesNoBG.png" alt="Prashamsa"></span>
-      </div>
-      <div class="tab" data-tab="projects" onclick="switchTab('projects')" draggable="true">
-        <svg viewBox="0 0 24 24" aria-hidden="true">
-          <defs>
-            <linearGradient id="igGradient" x1="0%" x2="100%" y1="0%" y2="100%">
-              <stop offset="0%" stop-color="#feda75"/>
-              <stop offset="20%" stop-color="#fa7e1e"/>
-              <stop offset="50%" stop-color="#d62976"/>
-              <stop offset="80%" stop-color="#962fbf"/>
-              <stop offset="100%" stop-color="#4f5bd5"/>
-            </linearGradient>
-          </defs>
-          <rect x="3.5" y="3.5" width="17" height="17" rx="4.5" fill="none" stroke="currentColor" stroke-width="1.8"/>
-          <circle cx="12" cy="12" r="4.3" fill="none" stroke="url(#igGradient)" stroke-width="1.8"/>
-          <circle cx="17.2" cy="7.2" r="1.2" fill="currentColor"/>
-        </svg>
-        <span class="tab-label">Data 2026</span>
-      </div>
-      <div class="tab" data-tab="progress" onclick="switchTab('progress')">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>
-        <span class="tab-label">In Progress</span>
-      </div>
-    </div>
-    <div class="tab-add">
-      <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
-    </div>
-  </div>
-
-  <!-- Address bar -->
-  <div class="toolbar">
-    <div class="nav-icons">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 18l-6-6 6-6"/></svg>
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12a9 9 0 11-3-6.7"/><path d="M21 3v6h-6"/></svg>
-    </div>
-    <div class="address-bar">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="5" y="11" width="14" height="9" rx="1"/><path d="M8 11V7a4 4 0 018 0v4"/></svg>
-      <span id="url-text">portfolio://home</span>
-    </div>
-    <div class="toolbar-icons">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 2l2.4 6.9H21l-5.6 4.3 2.1 7-5.5-4.3-5.5 4.3 2.1-7L3 8.9h6.6z"/></svg>
-    </div>
-  </div>
-
-  <!-- Bookmarks bar -->
-  <div class="bookmarks">
-    <div class="bookmark" onclick="window.open('https://www.linkedin.com/in/prashamsa-b-b893b1243/', '_blank')">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8" cy="10" r="1.5" fill="currentColor" stroke="none"/><path d="M8 13v4M13 17v-3a2 2 0 014 0v3M13 13v.01"/></svg>
-      LinkedIn
-    </div>
-    <div class="bookmark" onclick="window.open('https://github.com/bprashamsa', '_blank')">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 20l8-16M16 20l-8-16"/></svg>
-      GitHub
-    </div>
-  </div>
-
   <!-- ===================== HOME PAGE ===================== -->
   <div class="page active" id="page-home">
     <div class="home">
