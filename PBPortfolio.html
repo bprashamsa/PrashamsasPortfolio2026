@@ -8,6 +8,15 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&display=swap" rel="stylesheet">
 <style>
+  @font-face {
+    font-family: 'pbhandwritingfont';
+    src: url('Pbhandwritingfont-Regular.ttf') format('truetype'),
+         url('Pbhandwritingfont-Regular.otf') format('opentype');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+  }
+
   :root{
     --chrome-bg: #dee1e6;
     --tab-inactive: #d3d6da;
@@ -152,6 +161,7 @@
   .tab-label{
     display: inline-block;
     position: relative;
+    font-family: 'pbhandwritingfont', 'Segoe Print', 'Bradley Hand', cursive;
     font-size: 12px;
     font-weight: 500;
     letter-spacing: 0.01em;
@@ -375,8 +385,8 @@
     animation: shortcut-spin 8s linear infinite;
   }
   .shortcut-label{
-    font-family: 'EB Garamond', serif;
-    font-size: 18px;
+    font-family: 'pbhandwritingfont', 'Segoe Print', 'Bradley Hand', cursive;
+    font-size: 28px;
     font-weight: 600;
     letter-spacing: 0.4px;
     color: #fff;
