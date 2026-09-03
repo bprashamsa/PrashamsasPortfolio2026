@@ -324,29 +324,31 @@
   }
   .shortcut-icon{
     width:72px; height:72px; border-radius:50%;
-    background:#f1f3f4;
+    background:transparent;
     display:flex; align-items:center; justify-content:center;
     color: var(--text-secondary);
-    transition: background .12s ease;
+    transition: transform .12s ease;
     overflow:hidden;
     border: 0;
   }
   .browser.dark-mode .shortcut-icon{
-    background: rgba(255,255,255,0.04);
+    background: transparent;
     color: var(--text-primary);
   }
-  .shortcut:hover .shortcut-icon{ background:#e8eaed; }
+  .shortcut:hover .shortcut-icon img,
+  .shortcut:focus-visible .shortcut-icon img,
+  .shortcut:active .shortcut-icon img{
+    animation: shortcut-spin .8s ease-in-out;
+  }
+  @keyframes shortcut-spin{
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+  }
   .shortcut-icon svg{ width:26px; height:26px; }
   .shortcut-icon img{
     width:100%;
     height:100%;
-    object-fit:cover;
-    display:block;
-  }
-  .shortcut-profile img{
-    width:100%;
-    height:100%;
-    object-fit:cover;
+    object-fit:contain;
     display:block;
   }
   .shortcut-label{
